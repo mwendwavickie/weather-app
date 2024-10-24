@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { WiThermometer, WiDaySunny, WiRaindrop, WiStrongWind } from 'react-icons/wi';
-//import './App.css';
+import './App.css';
 
 const App = () => {
 

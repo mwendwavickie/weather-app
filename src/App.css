@@ -14,3 +14,29 @@ body {
   align-items: center;
   min-height: 100vh; /* Full-screen height */
 }
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+form {
+  margin-bottom: 20px;
+}
+input[type="text"] {
+  padding: 10px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+button {
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  background-color: #3e848d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
