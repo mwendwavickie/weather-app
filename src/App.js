@@ -58,19 +58,19 @@ const App = () => {
           <h3>{weather.name} </h3>
           {/* Display temperature with thermometer icon */}
           <p>
-          <WiThermometer size={40} /> Temperature: {weather.main.temp}°C
+          <WiThermometer size={40} />  {weather.main.temp}°C
           </p>
           {/* Display weather description with appropriate weather icon */}
           <p>
-            <WiDaySunny size={40} /> Weather: {weather.weather[0].description}
+            <WiDaySunny size={40} />  {weather.weather[0].description}
           </p>
           {/* Display humidity with raindrop icon */}
           <p>
-            <WiRaindrop size={40} /> Humidity: {weather.main.humidity}%
+            <WiRaindrop size={40} />  {weather.main.humidity}%
           </p>
           {/* Display wind speed with wind icon */}
           <p>
-            <WiStrongWind size={40} /> Wind Speed: {weather.wind.speed} m/s
+            <WiStrongWind size={40} />  {weather.wind.speed} m/s
           </p>
         </div>
       )}
