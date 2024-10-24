@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { WiThermometer, WiDaySunny, WiRaindrop, WiStrongWind } from 'react-icons/wi';
+//import './App.css';
 
 const App = () => {
 
@@ -12,7 +13,7 @@ const App = () => {
    const [error, setError] = useState('');
 
   //OpenWeather API key 
-   const API_KEY = 'cb08b2626e2363dd221092fe48899015';
+   const API_KEY = '0e458ff892f42c8171c455d007e8b535';
 
    //Fuction to fetch weather data from OpenWeatherAPI
    const getWeather = async (e) => {
@@ -23,7 +24,7 @@ const App = () => {
     try {
       //Api request to fetch weather data for the entered city
       const response = await axios.get(
-        'https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric'
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
       );
       //Store data in state
       setWeather(response.data);
@@ -37,7 +38,7 @@ const App = () => {
    };
 
   return (
-    <div style={{textAlign: 'center', marginTop: '50px'}}>
+    <div className="App">
       <h1>Weather App</h1>
       <form onSubmit={getWeather}>
         <input
@@ -48,6 +49,31 @@ const App = () => {
         />
         <button type="submit">Get Weather</button>
       </form>
+
+      {error && <p>{error}</p>}
+
+      {/* If weather data is available, display it */}
+      {weather && (
+        <div className="weather-info">
+          <h3>{weather.name} </h3>
+          {/* Display temperature with thermometer icon */}
+          <p>
+          <WiThermometer size={40} /> Temperature: {weather.main.temp}°C
+          </p>
+          {/* Display weather description with appropriate weather icon */}
+          <p>
+            <WiDaySunny size={40} /> Weather: {weather.weather[0].description}
+          </p>
+          {/* Display humidity with raindrop icon */}
+          <p>
+            <WiRaindrop size={40} /> Humidity: {weather.main.humidity}%
+          </p>
+          {/* Display wind speed with wind icon */}
+          <p>
+            <WiStrongWind size={40} /> Wind Speed: {weather.wind.speed} m/s
+          </p>
+        </div>
+      )}
     </div>
   ) ;
  
