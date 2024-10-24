@@ -36,7 +36,20 @@ const App = () => {
     }
    };
 
-  return ;
+  return (
+    <div style={{textAlign: 'center', marginTop: '50px'}}>
+      <h1>Weather App</h1>
+      <form onSubmit={getWeather}>
+        <input
+          type="text"
+          placeholder="Enter city"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+        />
+        <button type="submit">Get Weather</button>
+      </form>
+    </div>
+  ) ;
  
 }
 export default App;
