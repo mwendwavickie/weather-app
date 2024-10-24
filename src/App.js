@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import axios from "axios";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const App = () => {
+
+   //state to store the city entered by the user
+   const [city, setCity] = useState('');
+   //state to store weather fetched from the API
+   const [weather, setWeather]= useState(null);
+   //State to store error
+   const [error, setError] = useState('');
+
+  return ;
+ 
 }
-
 export default App;
