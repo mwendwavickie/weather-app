@@ -56,7 +56,7 @@ form {
   padding: 20px;
   margin-top: 20px;
   text-align: center;
-  align-items: center;
+  align-items: flex;
   animation: fadeIn 0.5s ease-in-out;
 }
 .weather-card h1 {
