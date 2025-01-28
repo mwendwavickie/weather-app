@@ -7,11 +7,14 @@ import './App.css';
 const App = () => {
 
    //state to store the city entered by the user
-   const [city, setCity] = useState('');
+   const [city, setCity] = useState('Nairobi');
    //state to store weather fetched from the API
    const [weather, setWeather]= useState(null);
    //State to store error
    const [error, setError] = useState('');
+   //State to store forecast
+   const [forecast, setForecast] = useState([]);
+  
 
   //OpenWeather API key 
    const API_KEY = '0e458ff892f42c8171c455d007e8b535';
@@ -29,11 +32,20 @@ const App = () => {
       );
       //Store data in state
       setWeather(response.data);
+
+      //API request to fetch 5-day weather forecast for the entered city
+      const forecastResponse = await axios.get(
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+     );
+     //Store forecast data in state
+     setForecast(forecastResponse.data.list.slice(0, 5)); // Limit to 5 data points
+
     } catch (error) {
       // if city is not found display an erro
       setError ('City not found');
       //reset the weather data if the city is not found
       setWeather (null);
+      setForecast (null);
 
     }
    };
@@ -83,6 +95,32 @@ const App = () => {
           </div>
         </div>
       )}
+      
+      {/* If forecast data is available, display it */}
+      {forecast.length > 0 && (
+               <div className="forecast">
+                  <h2>5-Day Forecast</h2>
+                  <div className="forecast-cards">
+                     {forecast.map((day, index) => (
+                        <div key={index} className="forecast-card">
+                           <p>{new Date(day.dt_txt).toLocaleDateString()}</p>
+                           <p>
+                              <WiThermometer size={30} /> {day.main.temp}°C
+                           </p>
+                           <p>
+                              <WiDaySunny size={30} /> {day.weather[0].description}
+                           </p>
+                           <p>
+                              <WiRaindrop size={30} /> Humidity: {day.main.humidity}%
+                           </p>
+                           <p>
+                              <WiStrongWind size={30} /> Wind: {day.wind.speed} m/s
+                           </p>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+            )}
       </div>
     </div>
   ) ;
