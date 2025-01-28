@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { WiThermometer, WiDaySunny, WiRaindrop, WiStrongWind } from 'react-icons/wi';
+import { MdOutlineDateRange } from 'react-icons/md';
 import './App.css';
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className={`App ${weather ? weather.weather[0].main.toLowerCase() : ''}`}>
       <h1>Weather App</h1>
       <form onSubmit={getWeather}>
         <input
@@ -54,9 +56,15 @@ const App = () => {
 
       {/* If weather data is available, display it */}
       {weather && (
-        <div className="weather-info">
-          <h3>{weather.name} </h3>
+        <div className="weather-card">
+          <h1>
+            {weather.name}, {weather.sys.country} 
+            </h1>
+            <p className="date">
+              <MdOutlineDateRange /> {new Date().toLocaleDateString()} {new Date().toLocaleTimeString()} 
+            </p>
           {/* Display temperature with thermometer icon */}
+          <div className="weather-info">
           <p>
           <WiThermometer size={40} />  {weather.main.temp}°C
           </p>
@@ -72,8 +80,10 @@ const App = () => {
           <p>
             <WiStrongWind size={40} />  {weather.wind.speed} m/s
           </p>
+          </div>
         </div>
       )}
+      </div>
     </div>
   ) ;
  

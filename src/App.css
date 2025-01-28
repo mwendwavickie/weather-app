@@ -2,7 +2,7 @@
 body {
   background-color: #c4d5da; /* Solid blue background */
   color: #fff; /* White text color for contrast */
-  font-family: Arial, sans-serif; /* Clean, simple font */
+  font-family: Roboto, sans-serif; /* Clean, simple font */
   margin: 0;
   padding: 0;
 }
@@ -15,6 +15,7 @@ body {
   min-height: 100vh; /* Full-screen height */
 }
 
+
 h1 {
   font-size: 3rem;
   margin-bottom: 20px;
@@ -25,10 +26,11 @@ form {
 }
 input[type="text"] {
   padding: 10px;
-  font-size: 1.2rem;
+  font-size: 16px;
   border: none;
   border-radius: 5px;
   margin-right: 10px;
+ 
 }
 button {
   padding: 10px 15px;
@@ -42,6 +44,15 @@ button {
 }
 button:hover {
   background-color: #0f4653;
+}
+
+.weather-card {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  color: black;
 }
 
 .weather-info {
