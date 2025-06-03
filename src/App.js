@@ -27,32 +27,36 @@ const App = () => {
 
     try {
       //Api request to fetch weather data for the entered city
-      const response = await axios.get(
+      const weatherResponse = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
       );
       //Store data in state
-      setWeather(response.data);
+      setWeather(weatherResponse.data);
 
       //API request to fetch 5-day weather forecast for the entered city
       const forecastResponse = await axios.get(
         `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
      );
      //Store forecast data in state
-     setForecast(forecastResponse.data.list.slice(0, 5)); // Limit to 5 data points
+     // Filter one forecast per day (12:00 PM)
+     const daily = forecastResponse.data.list.filter(reading =>
+      reading.dt_txt.includes("12:00:00")
+      );
+     setForecast(daily); // Limit to 5 data points
 
     } catch (error) {
       // if city is not found display an erro
       setError ('City not found');
       //reset the weather data if the city is not found
       setWeather (null);
-      setForecast (null);
+      setForecast ([]);// Reset forecast data
 
     }
    };
 
   return (
     <div className="App">
-      <div className={`App ${weather ? weather.weather[0].main.toLowerCase() : ''}`}>
+      <div className={'search-container'}>
       <h1>Weather App</h1>
       <form onSubmit={getWeather}>
         <input
@@ -63,22 +67,24 @@ const App = () => {
         />
         <button type="submit">Get Weather</button>
       </form>
+      </div>
 
-      {error && <p>{error}</p>}
+
+      {error && <p className="error">{error}</p>}
 
       {/* If weather data is available, display it */}
       {weather && (
-        <div className="weather-card">
-          <h1>
+        <div className="weather-section">
+          <h2>
             {weather.name}, {weather.sys.country} 
-            </h1>
+            </h2>
             <p className="date">
               <MdOutlineDateRange /> {new Date().toLocaleDateString()} {new Date().toLocaleTimeString()} 
             </p>
           {/* Display temperature with thermometer icon */}
-          <div className="weather-info">
+          <div className="weather-card">
           <p>
-          <WiThermometer size={40} />  {weather.main.temp}°C
+            <WiThermometer size={40} />  {weather.main.temp}°C
           </p>
           {/* Display weather description with appropriate weather icon */}
           <p>
@@ -95,35 +101,38 @@ const App = () => {
           </div>
         </div>
       )}
-      
+
+      {/* Wave boundary */}
+      <div className="wave">
+        <svg viewBox="0 0 1440 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path
+            fill="#0078d7"
+            d="M0,192L48,186.7C96,181,192,171,288,165.3C384,160,480,160,576,165.3C672,171,768,181,864,170.7C960,160,1056,128,1152,117.3C1248,107,1344,117,1392,122.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
+
       {/* If forecast data is available, display it */}
       {forecast.length > 0 && (
-               <div className="forecast">
-                  <h2>5-Day Forecast</h2>
-                  <div className="forecast-cards">
-                     {forecast.map((day, index) => (
-                        <div key={index} className="forecast-card">
-                           <p>{new Date(day.dt_txt).toLocaleDateString()}</p>
-                           <p>
-                              <WiThermometer size={30} /> {day.main.temp}°C
-                           </p>
-                           <p>
-                              <WiDaySunny size={30} /> {day.weather[0].description}
-                           </p>
-                           <p>
-                              <WiRaindrop size={30} /> Humidity: {day.main.humidity}%
-                           </p>
-                           <p>
-                              <WiStrongWind size={30} /> Wind: {day.wind.speed} m/s
-                           </p>
-                        </div>
-                     ))}
-                  </div>
-               </div>
-            )}
+        <div className="forecast-section">
+          <h3>Next Forecast</h3>
+          <div className="forecast-cards">
+            {forecast.map((day, index) => (
+              <div key={index} className="forecast-card">
+                <p>{new Date(day.dt_txt).toLocaleDateString(undefined, { weekday: 'long' })}</p>
+                <img
+                  src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`}
+                  alt="weather icon"
+                />
+                <p>{Math.round(day.main.temp)}°C</p>
+                <p>{day.weather[0].main}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       </div>
-    </div>
   ) ;
- 
-}
+};
+
 export default App;
